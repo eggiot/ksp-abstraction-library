@@ -1,15 +1,6 @@
-{-------------------------------------------------------
-THE KSP ABSTRACTION LIBRARY
---------------------------------------------------------}
-
-{
-You are required to call kal_init() in your init callback.
-It declares variables that are necessary for the abstraction
-library to function
-}
 macro kal_init()
     declare kal_iter := 0
-    declare const KAL_LOADED := 1 {True if kal_init() has been called}
+    declare const KAL_LOADED := 1 
 end macro
 
 on init
@@ -18,241 +9,85 @@ on init
     make_custom_button(button_it, "image", 1, 1)
 end on
 
-{----------------------- Volume ------------------------}
-
-{
-Change the volume of a single group
-Parameters:
-    volume: the new volume
-    group: the group number
-}
-
 function change_volume_group(volume, group)
     _set_engine_par(ENGINE_PAR_VOLUME, volume, group, 0, -1)
 end function
-
-{
-Change the volume of a range of groups
-Parameters:
-    volume: the new volume
-    first: the first group in the range
-    last: the last group in the range
-}
 
 function change_volume_group_range(volume, first, last)
     sep_group_range(ENGINE_PAR_VOLUME, volume, first, last, 0, -1)
 end function
 
-{----------------------- Tuning ------------------------}
-
-{
-Change the tuning of a single group
-Parameters:
-    volume: the new tuning
-    group: the group number
-}
 function change_tuning_group(tuning, group)
     _set_engine_par(ENGINE_PAR_TUNE, tuning, group, 0, -1)
 end function
-
-{
-Change the tuning of a range of groups
-Parameters:
-    volume: the new tuning
-    first: the first group in the range
-    last: the last group in the range
-}
 
 function change_tuning_group_range(tuning, first, last)
     sep_group_range(ENGINE_PAR_TUNE, tuning, first, last, 0, -1)
 end function
 
-{------------------------ Filters ----------------------}
-
-{
-Change the cutoff frequency of a filter in a single group
-Parameters:
-    cutoff: the new cutoff frequency
-    group: the group number
-    slot: the filter slot
-}
 function change_cutoff_group(cutoff, group, slot)
     _set_engine_par(ENGINE_PAR_CUTOFF, cutoff, group, slot, -1)
 end function
 
-{
-Change the resonance of a filter in a single group
-Parameters:
-    resonance: the new resonance
-    group: the group number
-    slot: the filter slot
-}
 function change_resonance_group(resonance, group, slot)
     _set_engine_par(ENGINE_PAR_RESONANCE, resonance, group, slot, -1)
 end function
 
-{
-Change the gain of a Ladder or Daft filter in a single group
-Parameters:
-    gain: the new gain
-    group: the group number
-    slot: the filter slot
-}
 function change_filter_gain_group(gain, group, slot)
     set_engine_par(ENGINE_PAR_GAIN, gain, group, slot, -1)
 end function
 
-{
-Change the cutoff frequency of a filter in a range of groups
-Parameters:
-    cutoff: the new cutoff frequency
-    group: the group number
-    slot: the filter slot
-}
 function change_cutoff_group_range(cutoff, first, last, slot)
     sep_group_range(ENGINE_PAR_CUTOFF, cutoff, first, last, slot, -1)
 end function
 
-{
-Change the resonance of a filter in a range of groups
-Parameters:
-    resonance: the new resonance
-    group: the group number
-    slot: the filter slot
-}
 function change_resonance_group_range(resonance, first, last, slot)
     sep_group_range(ENGINE_PAR_RESONANCE, resonance, first, last, slot, -1)
 end function
 
-{
-Change the gain of a Ladder or Daft filter in a range of groups
-Parameters:
-    gain: the new gain
-    group: the group number
-    slot: the filter slot
-}
 function change_filter_gain_group_range(gain, first, last, slot)
     sep_group_range(ENGINE_PAR_GAIN, gain, first, last, slot, -1)
 end function
 
-{----------------------- Envelopes ---------------------}
-
-{
-Change the hold parameter of an AHDSR envelope generator in a single group
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the parameter
-    group: the group to change
-}
 function set_env_hold(name, value, group)
     _set_engine_par(ENGINE_PAR_HOLD, value, group, find_mod(group,name), -1)
 end function
 
-{
-Change the attack parameter of an AHDSR envelope generator in a single group
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    group: the group to change
-}
 function set_env_attack(name, value, group)
     _set_engine_par(ENGINE_PAR_ATTACK, value, group, find_mod(group,name), -1)
 end function
 
-{
-Change the decay parameter of an AHDSR envelope generator in a single group
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    group: the group to change
-}
 function set_env_decay(name, value, group)
     _set_engine_par(ENGINE_PAR_DECAY, value, group, find_mod(group,name), -1)
 end function
 
-{
-Change the sustain parameter of an AHDSR envelope generator in a single group
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    group: the group to change
-}
 function set_env_sustain(name, value, group)
     _set_engine_par(ENGINE_PAR_SUSTAIN, value, group, find_mod(group,name), -1)
 end function
 
-{
-Change the release parameter of an AHDSR envelope generator in a single group
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    group: the group to change
-}
 function set_env_release(name, value, group)
     _set_engine_par(ENGINE_PAR_RELEASE, value, group, find_mod(group,name), -1)
 end function
 
-{
-Change the hold parameter of an AHDSR envelope generator in a range of groups.
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function set_env_hold_group_range(name, value, first, last)
     sep_target_group_range(ENGINE_PAR_HOLD, value, first, last, name, -1)
 end function
 
-{
-Change the attack parameter of an AHDSR envelope generator in a range of groups.
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function set_env_attack_group_range(name, value, first, last)
     sep_target_group_range(ENGINE_PAR_ATTACK, value, first, last, name, -1)
 end function
 
-{
-Change the decay parameter of an AHDSR envelope generator in a range of groups.
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function set_env_decay_group_range(name, value, first, last)
     sep_target_group_range(ENGINE_PAR_DECAY, value, first, last, name, -1)
 end function
 
-{
-Change the sustain parameter of an AHDSR envelope generator in a range of groups.
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function set_env_sustain_group_range(name, value, first, last)
     sep_target_group_range(ENGINE_PAR_SUSTAIN, value, first, last, name, -1)
 end function
 
-{
-Change the release parameter of an AHDSR envelope generator in a range of groups.
-Parameters:
-    name: the name of the AHDSR envelope generator
-    value: the new value of the hold parameter
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function set_env_release_group_range(name, value, first, last)
     sep_target_group_range(ENGINE_PAR_RELEASE, value, first, last, name, -1)
 end function
-
-{----------------------- LFOs ---------------------}
 
 function set_lfo_sine(name, value, group)
     _set_engine_par(ENGINE_PAR_LFO_SINE, value, group, find_mod(group,name), -1)
@@ -282,58 +117,19 @@ function set_lfo_frequency(name, value, group)
     _set_engine_par(ENGINE_PAR_INTMOD_FREQUENCY, value, group, find_mod(group,name), -1)
 end function
 
-{------------------- Modulation --------------------}
-
-{
-Changes the modulation intensity of an internal modulation strip in a single group
-
-Parameters:
-    value: the new target intensity
-    mod_name: the name of the modulator
-    target_name: the name of the modulation strip
-    group: the group we will be affecting
-}
 function change_group_int_target_intensity(value, mod_name, target_name, group)
     set_engine_par(ENGINE_PAR_MOD_TARGET_INTENSITY,value,group,find_mod(group,mod_name),find_target(group,find_mod(group,mod_name),target_name))
 end function
 
-{
-Changes the modulation intensity of an internal modulation strip in a range of groups
-
-Paramaters:
-    value: the new target intensity
-    mod_name: the name of the modulator
-    target_name: the name of the modulation strip
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function change_groups_int_target_intensity(value, mod_name, target_name, first, last)
     for kal_iter:= first to last
         change_group_int_target_intensity(value, mod_name, target_name, kal_iter)
     end for
 end function
 
-{
-Changes the modulation intensity of an external modulation strip in a single group
-
-Parameters:
-    value: the new modulation intensity
-    target_name: the name of the modulation strip
-    group: the group we will be affecting
-}
 function change_group_ext_target_intensity(value, target_name, group)
     set_engine_par(ENGINE_PAR_MOD_TARGET_INTENSITY, value, group, find_mod(group, target_name),-1)
 end function
-
-{
-Changes the modulation intensity of an external modulation strip in a range of groups
-
-Paramaters:
-    value: the new target intensity
-    target_name: the name of the modulation strip
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 
 function change_groups_ext_target_intensity(value, target_name, first, last)
     for kal_iter:= first to last
@@ -341,90 +137,30 @@ function change_groups_ext_target_intensity(value, target_name, first, last)
     end for
 end function
 
-{
-Changes the modulation intensity of an internal modulation strip in a single group
-so that the intensity is bipolar (i.e. has a negative and positive extreme)
-
-Parameters:
-    value: the new target intensity
-    mod_name: the name of the modulator
-    target_name: the name of the modulation strip
-    group: the group we will be affecting
-}
 function change_group_int_target_intensity_bipolar(value, mod_name, target_name, group)
     set_engine_par(ENGINE_PAR_INTMOD_INTENSITY,value,group,find_mod(group,mod_name),find_target(group,find_mod(group,mod_name),target_name))
 end function
 
-{
-Changes the modulation intensity of an internal modulation strip in a range of groups
-so that the intensity is bipolar (i.e. has a negative and positive extreme)
-
-Paramaters:
-    value: the new target intensity
-    mod_name: the name of the modulator
-    target_name: the name of the modulation strip
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function change_groups_int_target_intensity_bipolar(value, mod_name, target_name, first, last)
     for kal_iter:= first to last
         change_group_int_target_intensity_bipolar(value, mod_name, target_name, kal_iter)
     end for
 end function
 
-{
-Changes the modulation intensity of an external modulation strip in a single group
-so that the intensity is bipolar (i.e. has a negative and positive extreme)
-
-Parameters:
-    value: the new modulation intensity
-    target_name: the name of the modulation strip
-    group: the group we will be affecting
-}
 function change_group_ext_target_intensity_bipolar(value, target_name, group)
     set_engine_par(ENGINE_PAR_INTMOD_INTENSITY, value, group, find_mod(group, target_name),-1)
 end function
 
-{
-Changes the modulation intensity of an external modulation strip in a range of groups
-so that the intensity is bipolar (i.e. has a negative and positive extreme)
-
-Paramaters:
-    value: the new target intensity
-    target_name: the name of the modulation strip
-    first: the index of the first group in the range
-    last: the index of the last group in the range
-}
 function change_groups_ext_target_intensity_bipolar(value, target_name, first, last)
     for kal_iter:= first to last
         change_group_ext_target_intensity_bipolar(value, target_name, kal_iter)
     end for
 end function
 
-{-------------------- User Interface -------------------}
-
-{
-Set the wallpaper
-Parameters:
-    image: a character string containing the file name of the image (without extension)
-}
 macro set_wallpaper(image)
     set_control_par_str(INST_WALLPAPER_ID, CONTROL_PAR_PICTURE, image)
 end macro
 
-
-{
-Make a knob with a custom graphic and display it in the UI.
-
-Parameters:
-    variable: the name of the knob variable we will create
-    image: a character string containing the file name of the image (without extension)
-    min_value: the minimum value of the knob
-    max_value: the maximum value of the knob
-    x: the horizontal location of the knob within the UI
-    y: the vertical location of the knob within the UI
-
-}
 macro make_custom_knob(variable, image, min_value, max_value, x, y)
     declare ui_slider variable(min_value, max_value)
     hide_part(variable,  HIDE_PART_BG .or. HIDE_PART_MOD_LIGHT .or. HIDE_PART_TITLE .or. HIDE_PART_VALUE)
@@ -433,16 +169,6 @@ macro make_custom_knob(variable, image, min_value, max_value, x, y)
     move_control_px(variable, x, y)
 end macro
 
-{
-Make a label with a custom graphic and display it in the UI.
-
-Parameters:
-    variable: the name of the label variable we will create
-    image: a character string containing the file name of the image (without extension)
-    x: the horizontal location of the label within the UI
-    y: the vertical location of the label within the UI
-
-}
 macro make_image_label(variable, image, x, y)
     declare ui_label variable(0, 0)
     variable -> PICTUTRE := image
@@ -450,16 +176,6 @@ macro make_image_label(variable, image, x, y)
     move_control_px(variable, x, y)
 end macro
 
-{
-Make a button with a custom graphic and display it in the UI.
-
-Parameters:
-    variable: the name of the button variable we will create
-    image: a character string containing the file name of the image (without extension)
-    x: the horizontal location of the button within the UI
-    y: the vertical location of the button within the UI
-
-}
 macro make_custom_button(variable, image, x, y)
     declare ui_button variable
     hide_part(variable,  HIDE_PART_BG .or. HIDE_PART_MOD_LIGHT .or. HIDE_PART_TITLE .or. HIDE_PART_VALUE)
@@ -467,40 +183,18 @@ macro make_custom_button(variable, image, x, y)
     move_control_px(variable, x, y)
 end macro
 
-{
-Set the instrument icon image
-
-Parameters:
-    image: a character string containing the file name of the image (without extension)
-}
 function set_instrument_icon(image)
     INST_ICON_ID -> PICTURE := image
 end function
-{
-Get an x or y coordinate in a grid system
-Parameters:
-    position: the grid position of which we want the coordinate
-    slots: the number of slots in the grid
-    offset: an offset to add on to the slot coordinate
-    size: the size in pixels of the grid
-}
+
 function grid_coord(position, slots, offset, size) -> result
     result := ((size / slots) * (position-1)) + offset
 end function
-
-{
-Get an x coordinate in a grid system
-Parameters:
-    position: the grid position of which we want the coordinate
-    slots: the number of slots in the grid
-    offset: an offset to add on to the slot coordinate
-}
 
 function horizontal_grid_coord(position, slots, offset) -> result
     result := grid_coord(position, slots, offset, 632)
 end function
 
-{-----------------------Automation-------------------}
 macro set_automation_name(variable, name)
     variable -> AUTOMATION_NAME := name
 end macro
@@ -513,8 +207,6 @@ macro disable_automation(variable)
     variable -> ALLOW_AUTOMATION := 0
 end macro
 
-{----------Abstraction library abstractions----------}
-
 macro sep_group_range(parameter, value, first, last, slot, generic)
     for kal_iter := first to last
         _set_engine_par(parameter, value, kal_iter, slot, generic)
@@ -526,9 +218,4 @@ macro sep_target_group_range(parameter, value, first, last, target_name, generic
         _set_engine_par(parameter, value, kal_iter, find_mod(kal_iter, target_name), generic)
     end for
 end macro
-
-
-
-
-
 
